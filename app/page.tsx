@@ -19,7 +19,10 @@ export default function PharmacyDashboard() {
     setLoading(true);
     try {
       const data = await medicineService.getAll();
-      setMedicines(data);
+      setTimeout(() => {
+        setMedicines(data);
+        setLoading(false);
+      }, 500);
     } catch (error: any) {
       alert("Error: " + error);
       console.error("Error fetching medicines:", error);
@@ -44,13 +47,13 @@ export default function PharmacyDashboard() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Minindobat Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900">PBF Farmasi</h1>
               <p className="text-sm text-gray-600 mt-1">Manajemen Stok & Order Obat</p>
             </div>
           </div>
         </div>
       </div>
-      
+
       <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -60,9 +63,23 @@ export default function PharmacyDashboard() {
                   <h2 className="text-xl font-bold text-white">Daftar Obat</h2>
                   <button
                     onClick={fetchMedicines}
-                    className="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white text-sm font-semibold transition-colors flex items-center gap-2 shadow-md"
+                    disabled={loading} 
+                    className="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white text-sm font-semibold transition-colors flex items-center gap-2 shadow-md disabled:opacity-50"
                   >
-                    Refresh
+                    <svg
+                      className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                    {loading ? "Memperbarui..." : "Perbarui Data"}
                   </button>
                 </div>
               </div>
